@@ -2,11 +2,13 @@
 use students
 
 create table emp_details(
-userid int primary key,
+userid int ,
 name varchar(30),
 per_hour_salary money,
 working_hour int,
 total_salary money)
+drop table emp_details
+alter table emp_details alter column userid int;
 
 select * from emp_details
 alter table  emp_details add acc_count int not null default 0;
@@ -22,9 +24,9 @@ where emp_details.userid=i.userid
 end
 
 insert into emp_details(userid,name,per_hour_salary,working_hour)
-values(6,'Sonali','15000','8')
+values(11,'Sahil','15000','8')
 insert into emp_details(userid,name,per_hour_salary,working_hour)
-values(8,'sakshi','12500','10')
+values(12,'shiva','12500','10')
 
 select * from emp_details
 
@@ -38,13 +40,13 @@ from inserted i
 where emp_details.userid= i.userid
 end
 
-update emp_details set working_hour = 7 where userid = 8
+update emp_details set working_hour =10 where userid =10
 select * from emp_details
 
 -- delete trigger 
 --new table to store the deleted data 
 create table deleted_emp_detail(
-id int,
+id int primary key,
 empname varchar(30),
 per_hour_salary money,
 working_hour int,
@@ -66,9 +68,9 @@ select * from deleted_emp_detail
 
 
 -----calculate the number of accounts of a user
-/*create table accounts(
-account_no int,
-userid int,
+create table accounts(
+account_no int ,
+userid int ,
 balance int default 0
 )
 drop table accounts
@@ -76,20 +78,22 @@ drop table accounts
 select * from accounts
 select * from emp_details
 
-create trigger open_account  on emp_details 
-after insert
+create trigger open_account on 
+accounts
+after insert 
 as begin 
 update emp_details
-set acc_count = i.acc_count + 1 from inserted i where 
-emp_details.userid =i.userid
+set acc_count = acc_count + 1 from
+emp_details join inserted i  on emp_details.userid =i.userid
 end
+
 drop trigger open_account
 
 insert into accounts(account_no,userid,balance)
-values(200155,5,50000)
+values(2004,1,500)
 
 select * from accounts
-select * from emp_details*/
+select * from emp_details
 
 
 
